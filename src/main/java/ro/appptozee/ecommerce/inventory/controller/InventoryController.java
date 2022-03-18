@@ -17,7 +17,7 @@ public class InventoryController {
     @Autowired
     private InventoryService inventoryService;
 
-    @PostMapping("/reserve")
+    @PostMapping("api/reserve")
     public ResponseEntity<InventoryStatus> reserve(@RequestBody OrderDto orderDto){
         try{
             inventoryService.reserve(orderDto);
@@ -27,7 +27,7 @@ public class InventoryController {
         }
     }
 
-    @PostMapping("/checkin")
+    @PostMapping("api/checkin")
     public ResponseEntity<InventoryStatus> checkin(@RequestBody OrderDto orderDto){
         try{
             inventoryService.checkin(orderDto);
@@ -37,7 +37,7 @@ public class InventoryController {
         }
     }
 
-    @GetMapping("/product/{productId}/available/{quantity}")
+    @GetMapping("api/products/{productId}/available/{quantity}")
     public ResponseEntity<InventoryStatus> reserve(@PathVariable("productId") long productId,
                                                    @PathVariable("quantity") int quantity){
             boolean inStock = inventoryService.isInStock(productId,quantity);
