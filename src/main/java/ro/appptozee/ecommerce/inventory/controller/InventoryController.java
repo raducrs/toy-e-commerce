@@ -5,9 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ro.appptozee.ecommerce.common.dto.InventoryStatus;
-import ro.appptozee.ecommerce.common.dto.OrderDto;
-import ro.appptozee.ecommerce.common.dto.ReservationStatus;
+import ro.appptozee.ecommerce.common.dto.inventory.InventoryStatus;
+import ro.appptozee.ecommerce.common.dto.inventory.OrderDto;
+import ro.appptozee.ecommerce.common.dto.inventory.ReservationStatus;
 import ro.appptozee.ecommerce.inventory.service.InventoryService;
 import ro.appptozee.ecommerce.inventory.service.ItemUnavailable;
 

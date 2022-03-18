@@ -1,4 +1,4 @@
-package ro.appptozee.ecommerce.common.dto;
+package ro.appptozee.ecommerce.common.dto.inventory;
 
 public record LineItem(long productId, int quantity) {
 }

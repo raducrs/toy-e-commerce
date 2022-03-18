@@ -1,5 +1,3 @@
-package ro.appptozee.ecommerce.common.dto;
-
-import java.util.List;
+package ro.appptozee.ecommerce.common.dto.inventory;
 
 public record InventoryStatus(ReservationStatus reservationStatus) {}

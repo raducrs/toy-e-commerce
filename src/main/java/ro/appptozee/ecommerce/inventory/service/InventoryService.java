@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
-import ro.appptozee.ecommerce.common.dto.OrderDto;
+import ro.appptozee.ecommerce.common.dto.inventory.OrderDto;
 import ro.appptozee.ecommerce.inventory.entities.InventoryProduct;
 import ro.appptozee.ecommerce.inventory.entities.InventoryProductRepository;
 

@@ -1,4 +1,4 @@
-package ro.appptozee.ecommerce.common.dto;
+package ro.appptozee.ecommerce.common.dto.inventory;
 
 import java.util.List;
 
