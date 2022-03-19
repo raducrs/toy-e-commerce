@@ -25,9 +25,8 @@ public class PaymentGateway {
             return order;
         })
                 .thenAccept(o -> // simulate async processing
-                applicationEventPublisher.publishEvent(PaymentCompleted.builder()
-                        .orderDto(o)
-                        .paymentStatus(Math.random() < 0.5 ? PaymentStatus.PAYMENT_OK : PaymentStatus.PAYMENT_NOK))
+                applicationEventPublisher.publishEvent(new PaymentCompleted(this,o,
+                       Math.random() < 0.5 ? PaymentStatus.PAYMENT_OK : PaymentStatus.PAYMENT_NOK))
         );
     }
 }
