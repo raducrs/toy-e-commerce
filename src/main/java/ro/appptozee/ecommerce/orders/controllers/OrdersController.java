@@ -28,7 +28,6 @@ public class OrdersController {
 
     @PostMapping("api/checkout/{cId}")
     public ResponseEntity<CheckoutAction> checkout(@PathVariable("cId") long cartId){
-        // retrieve authenticated user
         boolean added = orderService.checkout(cartId);
         return ResponseEntity.accepted().body(new CheckoutAction(added));
     }

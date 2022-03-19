@@ -38,6 +38,7 @@ public class OrderService {
         Optional<Order> optOrder = orderRepository.findOrderForUser(userId);
         var order = optOrder.orElseGet(()->orderRepository.createCart(userId));
         order.setInventoryService(inventoryService);
+        order.setOrderRepository(orderRepository);
         return new StockAction(order.addToCart(productId), order.getOrderId());
     }
 

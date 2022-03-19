@@ -2,10 +2,8 @@ package ro.appptozee.ecommerce.users.controllers;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -15,10 +13,7 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class UserController {
 
-    /* @GetMapping(value = "/login-form")
-    public String login() {
-        return "login-form";
-    }*/
+
 
     @GetMapping(value="/logout")
     public String logoutPage (HttpServletRequest request, HttpServletResponse response) {

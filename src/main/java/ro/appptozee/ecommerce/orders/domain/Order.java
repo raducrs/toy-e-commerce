@@ -15,7 +15,7 @@ import java.util.Map;
 @Builder
 public class Order {
     private Long orderId;
-    private long userId;
+    private Long userId;
     private OrderStatus orderStatus;
     private Map<Long,Integer> items;
 
@@ -26,9 +26,9 @@ public class Order {
 
 
     boolean addToCart(long productId){
-        int count = 1;
+        int count = 0;
         if (items.containsKey(productId)){
-           count = items.get(productId) + 1;
+           count = items.get(productId);
         }
         boolean isAvailable = inventoryService.isAvailable(productId,count+1);
         if(isAvailable){
@@ -54,5 +54,7 @@ public class Order {
 
     void checkin(){
         inventoryService.checkin(this);
+        orderStatus = OrderStatus.IN_CART;
+        orderRepository.saveOrder(this);
     }
 }

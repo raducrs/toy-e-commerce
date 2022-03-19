@@ -15,6 +15,9 @@ public class OrdersRepo implements OrderRepository {
     @Autowired
     private OrdersJpaRepository jpaRepository;
 
+    @Autowired
+    private LineItemRepository lineItemRepository;
+
     @Override
     public Optional<Order> findById(Long orderId) {
         return jpaRepository.findById(orderId)
@@ -25,7 +28,11 @@ public class OrdersRepo implements OrderRepository {
 
     @Override
     public void saveOrder(Order order) {
-        jpaRepository.save(convertToDao(order));
+        var orderDao = jpaRepository.save(convertToDao(order));
+        order.getItems().entrySet().stream()
+                .map(e-> new LineItem(new LineItemPK(orderDao,e.getKey()),e.getValue()))
+                .forEach(lineItemRepository::save);
+
     }
 
     @Override
@@ -36,7 +43,7 @@ public class OrdersRepo implements OrderRepository {
     @Override
     public Order createCart(long userId) {
         var order = new ro.appptozee.ecommerce.orders.infra.entities.Order();
-        order.setId(userId);
+        order.setUserId(userId);
         order.setOrderStatus(OrderStatus.IN_CART);
         return convertFromDao(jpaRepository.save(order));
     }
@@ -56,10 +63,12 @@ public class OrdersRepo implements OrderRepository {
         dao.setId(order.getOrderId());
         dao.setOrderStatus(order.getOrderStatus());
         dao.setUserId(order.getUserId());
-        dao.setOrderProducts(order.getItems().entrySet().stream()
+        /*dao.setOrderProducts(order.getItems().entrySet().stream()
                         .map(e-> new LineItem(new LineItemPK(dao,e.getKey()),e.getValue()))
                         .collect(Collectors.toList())
-        );
+
+
+        );*/
         return dao;
     }
 }

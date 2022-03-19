@@ -2,6 +2,7 @@ package ro.appptozee.ecommerce.orders.infra.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -9,6 +10,7 @@ import javax.persistence.*;
 @Table(name = "line_item")
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class LineItem {
 
     @EmbeddedId
@@ -20,4 +22,5 @@ public class LineItem {
         this.id = id;
         this.quantity = q;
     }
+
 }
