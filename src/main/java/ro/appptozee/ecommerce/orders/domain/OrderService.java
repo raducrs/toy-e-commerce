@@ -22,36 +22,47 @@ public class OrderService {
     }
 
     public boolean checkout(long orderId){
-        var opt = orderRepository.findById(orderId);
-        return opt
-                .map(order -> {
-                    order.setOrderRepository(orderRepository);
-                    order.setInventoryService(inventoryService);
-                    order.setPricingService(pricingService);
-                    order.setPaymentService(paymentService);
-                return order;})
-                .map(Order::checkout)
-                .orElse(false);
+        var order = orderRepository.findById(orderId).get();
+        // total price for order (assuming individual prices were shown and discounts deducted)
+        int price = pricingService.computePrice(order);
+
+        boolean isInStock = inventoryService.reserve(order);
+        if(!isInStock) return false;
+
+        // update status
+        order.checkout() ;
+        orderRepository.saveOrder(order);
+
+        // create payment with order id as reference
+        paymentService.createPayment(order,price);
+        return true;
     }
 
     public StockAction addToCart(long userId, long productId){
+        // retrieve open order for user or create a new one
         Optional<Order> optOrder = orderRepository.findOrderForUser(userId);
         var order = optOrder.orElseGet(()->orderRepository.createCart(userId));
-        order.setInventoryService(inventoryService);
-        order.setOrderRepository(orderRepository);
-        return new StockAction(order.addToCart(productId), order.getOrderId());
+
+        int count = order.totalInOrder(productId);
+        boolean isAvailable = inventoryService.isAvailable(productId,count+1);
+        if(isAvailable){
+            order.addToCart(productId);
+            orderRepository.saveOrder(order);
+        }
+        return new StockAction(isAvailable, order.getOrderId());
     }
 
     public void checkin(OrderDto orderDto){
         var order = orderRepository.findById(orderDto.orderId()).get();
-        order.setInventoryService(inventoryService);
+        inventoryService.checkin(order);
         order.checkin();
+        orderRepository.saveOrder(order);
     }
 
 
     public void completed(OrderDto orderDto) {
         var order = orderRepository.findById(orderDto.orderId()).get();
-        order.setOrderStatus(OrderStatus.PAYMENT_SUCCEEDED);
+        order.completed();
         orderRepository.saveOrder(order);
     }
 }
