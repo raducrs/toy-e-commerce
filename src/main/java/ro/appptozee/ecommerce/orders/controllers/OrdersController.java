@@ -19,6 +19,7 @@ public class OrdersController {
 
     @PostMapping("api/addtocart/product/{pId}")
     public ResponseEntity<CartAction> addToCart(@PathVariable("pId") long productId){
+        // cart should normally be stored on client side in local storage, cookies, session
         // retrieve authenticated user
         UsernamePasswordAuthenticationToken authentication = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
         User loggedInUser = ((PrincipalUserDetails) authentication.getPrincipal()).user();
